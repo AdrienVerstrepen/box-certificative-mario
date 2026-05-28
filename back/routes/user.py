@@ -35,10 +35,7 @@ def register(name, email, password):
 
     cursor = conn.cursor()
 
-    cursor.execute("SELECT count(*) FROM AppUser")
-    count = cursor.fetchone()
-    id = count[0] + 1
-    cursor.execute("INSERT INTO AppUser VALUES (%s, %s, %s, %s, 'USER');", (id, name, email, password,))
+    cursor.execute("INSERT INTO AppUser (Username, email, UserPassword, UserRoles) VALUES (%s, %s, %s, 'USER');", (name, email, password,))
     conn.commit()
     print("User registered successfully.")
 
