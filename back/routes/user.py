@@ -1,12 +1,16 @@
-from app import api, Connection
+from connexion import connect_to_database
 
-@api.route("/login", methods=['GET'])
+from flask import Blueprint
+
+userBlueprint = Blueprint('userBlueprint', __name__)
+
+@userBlueprint.route("/login", methods=['GET'])
 def login(email, password):
     """
     This function returns the information of a user if the provided credentials are correct.
     """
 
-    conn = Connection()
+    conn = connect_to_database()
 
     cursor = conn.cursor()
 
@@ -25,13 +29,13 @@ def login(email, password):
     conn.close()
 
 
-@api.route("/register", methods=['GET'])
+@userBlueprint.route("/register", methods=['GET'])
 def register(name, email, password):
     """
     This function registers a new user in the database.
     """
 
-    conn = Connection()
+    conn = connect_to_database()
 
     cursor = conn.cursor()
 
