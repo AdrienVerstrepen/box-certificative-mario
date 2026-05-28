@@ -1,19 +1,10 @@
 <script setup>
-import { ref } from vue
+import { ref } from 'vue'
+import { sanitizeEmail } from '@/utils/sanitization'
 
 const userEmail = ref('')
 const userPassword = ref('')
 const errorMessage = ref("")
-
-const sanitizeEmail = (email) => {
-    const trimmedEmail = email.trim().toLowerCase()
-    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    if (emailRegex.test(trimmedEmail)) {
-        userEmail.value = trimmedEmail;
-    } else {
-        throw new Error("Invalid E-mail")
-    }
-}
 
 const handleLogin = () => {
     try {

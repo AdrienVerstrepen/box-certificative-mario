@@ -4,10 +4,10 @@ import { sanitizeEmail, sanitizeUsername } from '@/utils/sanitization'
 
 const email = ref("")
 const username = ref("")
-const password = ref("")
+const userPassword = ref("")
 const errorMessage = ref("")
 
-const checkPasswordStrength = (password) = () => {
+const checkPasswordStrength = (password) => {
     if (password.length < 8) {
         throw new Error("Password too short")
     }
@@ -19,7 +19,7 @@ const checkPasswordStrength = (password) = () => {
 
 const registerUser = () => {
     try {
-        checkPasswordStrength(password.value)
+        checkPasswordStrength(userPassword.value)
         email.value = sanitizeEmail(email.value)
         username.value = sanitizeUsername(username.value)
     } catch (error) {

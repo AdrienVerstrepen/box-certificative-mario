@@ -16,5 +16,5 @@ Then change the values corresponding to the one you will be using.
 ### Using docker
 
 ```
-docker-compose up -d
+docker-compose up -d --build
 ```
