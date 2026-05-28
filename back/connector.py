@@ -1,31 +1,66 @@
 import psycopg2
 import os
+import flask
 
-name = os.getenv('POSTGRES_DB')
-user = os.getenv('POSTGRES_USER')
-password = os.getenv('DB_PASSWORD')
+app = flask.Flask(__name__)
 
-# Connect to the School database
-conn = psycopg2.connect(
-    dbname=name,
-    user=user,
-    password=password,
+db_name = os.getenv('POSTGRES_DB')
+db_user = os.getenv('POSTGRES_USER')
+db_password = os.getenv('DB_PASSWORD')
+
+def Connection():
+    """
+    This function establishes a connection to the PostgreSQL database.
+    """
+    conn = psycopg2.connect(
+    dbname=db_name,
+    user=db_user,
+    password=db_password,
     host='localhost',
-)
+    )
+    return conn
 
-email = "alice@mail.com"
-mdp = "pass123"
+@app.route("/login", methods=['GET'])
+def login(email, password):
+    """
+    This function returns the information of a user if the provided credentials are correct.
+    """
 
-cursor = conn.cursor()
-cursor.execute("SELECT UserPassword FROM AppUser WHERE email like %s;", (email,))
-result = cursor.fetchone()
-print(result)
-if result is not None:
-    stored_password = result[0]
-    if stored_password == mdp:
-        print("Authentication successful!")
-    else:
-        print("Authentication failed: Incorrect password.")
+    conn = Connection()
 
-cursor.close()
-conn.close()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM AppUser WHERE email like %s;", (email,))
+    result = cursor.fetchone()
+    if result is not None:
+        stored_password = result[3]
+        if stored_password == password:
+            print("Authentication successful.")
+            print("User details:", result)
+            return result
+        else:
+            return "Authentication failed: Incorrect password."
+
+    cursor.close()
+    conn.close()
+
+
+@app.route("/register", methods=['GET'])
+def register(name, email, password):
+    """
+    This function registers a new user in the database.
+    """
+
+    conn = Connection()
+
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT count(*) FROM AppUser")
+    count = cursor.fetchone()
+    id = count[0] + 1
+    cursor.execute("INSERT INTO AppUser VALUES (%s, %s, %s, %s, 'USER');", (id, name, email, password,))
+    conn.commit()
+    print("User registered successfully.")
+
+    cursor.close()
+    conn.close()
