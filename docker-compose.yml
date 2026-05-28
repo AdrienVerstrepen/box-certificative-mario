@@ -8,11 +8,17 @@ services:
             POSTGRES_PASSWORD: ${POSTGRES_USER_PASSWORD}
         volumes:
             - db_data:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DATABASE}"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
 
     back:
         build: ./back
         depends_on:
-            - db
+            db:
+                condition: service_healthy
         environment:
             DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_USER_PASSWORD}@db/${POSTGRES_DATABASE}
             DB_USER: ${POSTGRES_USER}
@@ -20,8 +26,6 @@ services:
             DB_NAME: ${POSTGRES_DATABASE}
         ports:
             - "8000:8000"
-        secrets:
-            - .env
 
     front:
         build: ./front
@@ -32,7 +36,3 @@ services:
 
 volumes:
     db_data:
-
-secrets: 
-    .env:
-        ./.env
