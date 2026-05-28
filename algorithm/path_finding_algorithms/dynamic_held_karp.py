@@ -2,6 +2,9 @@ from path_finding_algorithms.base_path_finding_algorithm import BasePathFindingA
 
 class DynamicHeldKarpTSP(BasePathFindingAlgorithm):
     def find_shortest_itinerary(self, distance_matrix):
+        """
+        This method finds the exact shortest path using the Held-Karp approach.
+        """
         number_locations = len(distance_matrix)
         if number_locations <= 1:
             return list(range(number_locations))

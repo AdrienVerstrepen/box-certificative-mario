@@ -1,6 +1,7 @@
 from location import Location
 from tour import Tour
 from path_finding_algorithms.dynamic_held_karp import DynamicHeldKarpTSP
+from path_finding_algorithms.nearest_neighbours import NearestNeighboursTSP
 
 def main():
     picked_locations = [
@@ -17,7 +18,7 @@ def main():
     if len(list_location) <= 15:
         chosen_path_algorithm = DynamicHeldKarpTSP()
     else:
-        chosen_path_algorithm = DynamicHeldKarpTSP()
+        chosen_path_algorithm = NearestNeighboursTSP()
 
     best_indices = chosen_path_algorithm.find_shortest_itinerary(tour.distance_matrix)
     total_distance = tour.tour_score(best_indices)
