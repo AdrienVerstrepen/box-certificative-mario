@@ -1,11 +1,16 @@
 import psycopg2
+import os
+
+name = os.getenv('POSTGRES_DB')
+user = os.getenv('POSTGRES_USER')
+password = os.getenv('DB_PASSWORD')
 
 # Connect to the School database
 conn = psycopg2.connect(
-    dbname="box-certificative-mario",
-    user="postgres",
-    password="Mathys59.",
-    host="localhost"
+    dbname=name,
+    user=user,
+    password=password,
+    host='localhost',
 )
 
 email = "alice@mail.com"
