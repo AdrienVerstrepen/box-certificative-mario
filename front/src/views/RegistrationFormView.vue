@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { sanitizeEmail, sanitizeUsername } from '@/utils/sanitization'
+import { sendRegistrationRequest } from '@/api/backendApiRequests'
 
 const email = ref("")
 const username = ref("")
@@ -12,12 +13,24 @@ const checkPasswordStrength = (password) => {
         throw new Error("Password too short")
     }
     const passwordRegex = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$/
-    if (!passwordRegex.test(password)) {
-        throw new Error("Your password must have 2 letter in upper case ")
+    if (!/(.*[A-Z]){2,}/.test(password)) {
+        throw new Error("Password must have at least 2 uppercase letters (A-Z)");
+    }
+    
+    if (!/(.*[!@#$&*])/.test(password)) {
+        throw new Error("Password must contain at least one special character (e.g. !@#$&*)");
+    }
+    
+    if (!/(.*[0-9]){2,}/.test(password)) {
+        throw new Error("Password must have at least 2 numbers in it");
+    }
+    
+    if (!/(.*[a-z]){3,}/.test(password)) {
+        throw new Error("Password must contain 3 lowercase letters (a-z)");
     }
 }
 
-const registerUser = () => {
+const registerUser = async () => {
     try {
         checkPasswordStrength(userPassword.value)
         email.value = sanitizeEmail(email.value)
@@ -29,6 +42,8 @@ const registerUser = () => {
 
     errorMessage.value = ""
     console.log("user tried to register")
+    const data = await sendRegistrationRequest(username.value, email.value, userPassword.value)
+    console.log(data)
     // SEND DATA TO BACKEND !!
 }
 
@@ -51,7 +66,7 @@ const registerUser = () => {
         </div>
         <div>
             <label>Password</label>
-            <input type="password" placeholder="password" v-model="password">
+            <input type="password" placeholder="password" v-model="userPassword">
         </div>
         <button type="submit">btn</button>
     </form>
