@@ -1,19 +1,15 @@
 CREATE TABLE IF NOT EXISTS AppUser
 (
-    UserID INT PRIMARY KEY NOT NULL,
+    UserID SERIAL  PRIMARY KEY NOT NULL,
     Username VARCHAR(100) unique,
-<<<<<<< HEAD
     Email VARCHAR(255) unique,
-=======
-    Email VARCHAR(255),
->>>>>>> d5d52c58bd0f1ca69a67df93f430d4a68565344f
 	UserPassword VARCHAR(100),
 	UserRoles VARCHAR(100)
 );
 
 CREATE TABLE IF NOT EXISTS Tour
 (
-    TourID INT PRIMARY KEY NOT NULL,
+    TourID SERIAL  PRIMARY KEY NOT NULL  ,
     TourName VARCHAR(100),
     Visibility bool,
 	UserID int, 
@@ -22,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Tour
 
 CREATE TABLE IF NOT EXISTS Place
 (
-    PlaceID INT PRIMARY KEY NOT NULL,
+    PlaceID SERIAL  PRIMARY KEY NOT NULL,
     PlaceName VARCHAR(100),
     latitude float,
 	longitude float,
@@ -40,27 +36,27 @@ CREATE TABLE IF NOT EXISTS Stage
 );
 
 -- USERS
-INSERT INTO AppUser (UserID, Username, Email, UserPassword, UserRoles)
+INSERT INTO AppUser (Username, Email, UserPassword, UserRoles)
 VALUES
-(1, 'alice', 'alice@mail.com', 'pass123', 'USER'),
-(2, 'bob', 'bob@mail.com', 'secret456', 'ADMIN'),
-(3, 'charlie', 'charlie@mail.com', 'qwerty', 'USER');
+('alice', 'alice@mail.com', 'pass123', 'USER'),
+('bob', 'bob@mail.com', 'secret456', 'ADMIN'),
+('charlie', 'charlie@mail.com', 'qwerty', 'USER');
 
 -- TOURS
-INSERT INTO Tour (TourID, TourName, Visibility, UserID)
+INSERT INTO Tour (TourName, Visibility, UserID)
 VALUES
-(1, 'European Capitals', true, 1),
-(2, 'French Castles', false, 2),
-(3, 'Asian Adventure', true, 1);
+('European Capitals', true, 1),
+('French Castles', false, 2),
+('Asian Adventure', true, 1);
 
 -- PLACES
-INSERT INTO Place (PlaceID, PlaceName, latitude, longitude, country)
+INSERT INTO Place (PlaceName, latitude, longitude, country)
 VALUES
-(1, 'Paris', 48.8566, 2.3522, 'France'),
-(2, 'Berlin', 52.5200, 13.4050, 'Germany'),
-(3, 'Tokyo', 35.6762, 139.6503, 'Japan'),
-(4, 'Versailles', 48.8049, 2.1204, 'France'),
-(5, 'Kyoto', 35.0116, 135.7681, 'Japan');
+('Paris', 48.8566, 2.3522, 'France'),
+('Berlin', 52.5200, 13.4050, 'Germany'),
+('Tokyo', 35.6762, 139.6503, 'Japan'),
+('Versailles', 48.8049, 2.1204, 'France'),
+('Kyoto', 35.0116, 135.7681, 'Japan');
 
 -- STAGES
 INSERT INTO Stage (PlaceID, TourID, StepNumber)
@@ -72,3 +68,5 @@ VALUES
 
 (3, 3, 1),
 (5, 3, 2);
+
+select * from Appuser
