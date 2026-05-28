@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS Place
 	country Varchar(100)
 );
 
-CREATE TABLE IF NOT EXISTS Stage
+create TABLE IF NOT EXISTS Stage
 (
     PlaceID INT,
     TourID Int,
