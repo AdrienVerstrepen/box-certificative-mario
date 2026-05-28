@@ -44,6 +44,7 @@ __screenshots__/
 doc.yaml
 refacto/*
 old/*
+venv/*
 
 # Secrets
 .env
