@@ -1,4 +1,4 @@
-from algorithm.location import Location
+from location import Location
 
 class Tour:
     def __init__(self, locations = None):
@@ -66,4 +66,4 @@ class Tour:
         """
         This method shows the information of the tour.
         """
-        return f"Tour with {len(self.locations)} locations."
+        return f"Tour with {len(self.locations)} locations"

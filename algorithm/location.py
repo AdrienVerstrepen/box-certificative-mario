@@ -11,6 +11,7 @@ class Location:
         self.name = name
         self.latitude = latitude
         self.longitude = longitude
+        #self.country = country
         self.coordonates = (latitude, longitude)
 
     def distance_locations(self, location_2):
