@@ -38,3 +38,19 @@ export const sendLoginRequest = async (mail, password) => {
         }
     }
 }
+
+export const sendPlacesRequest = async (places) => {
+    try {
+        const response = await backendClientConf.post('/api/places', places)
+        return response.data
+    } catch (error) {
+        console.warn(error)
+        if (error.response) {
+            console.error("The API encountered an error :", error)
+        } else if (error.request) {
+            console.error("No response from the API :", error)
+        } else {
+            console.error("Uknown error :", error)
+        }
+    }
+}
