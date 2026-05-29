@@ -56,6 +56,8 @@ class Tour:
         tour_itinerary = []
         for order, index in enumerate(itinerary_indices):
             location = self.locations[index]
+            if location.position == -1:
+                location.position = order
             tour_itinerary.append({
                 "visit_order": order + 1,
                 "location_object": location

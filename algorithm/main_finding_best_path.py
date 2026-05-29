@@ -26,8 +26,8 @@ def main():
 
     for step in itinerary:
         order = step["visit_order"]
-        city_name = step["location_object"].name
-        print(f"Étape {order} : {city_name}")
+        location = step["location_object"]
+        print(f"Étape {order} : {location.name} (Position enregistrée : {location.position})")
         
     print(f"\nDistance totale du trajet : {round(total_distance, 2)} km")
 
