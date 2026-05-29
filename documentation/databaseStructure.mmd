@@ -20,14 +20,14 @@ classDiagram
         +float Longitude
         +string Country
         +int LocationID
-        +int clusterNumber
-        +int clusterHotelID
     }
 
     class Stage {
         +int TourID
         +int PlaceID
         +int StepNumber
+        +int clusterNumber
+        +int clusterHotelID | clé étrange
     }
 
     AppUser -- Tour

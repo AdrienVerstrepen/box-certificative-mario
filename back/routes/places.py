@@ -1,5 +1,5 @@
 from connexion import connect_to_database
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, current_app, jsonify, request
 
 placesBlueprint = Blueprint('placesBlueprint', __name__)
 
@@ -7,10 +7,10 @@ def parse_place(place):
     """
     This function validates and normalizes a place payload.
     """
-    name = place.get("Name")
-    latitude = place.get("latitude")
-    longitude = place.get("longitude")
-    country = place.get("Country")
+    name = place.get("Name") or place.get("name")
+    latitude = place.get("latitude") if "latitude" in place else place.get("lat")
+    longitude = place.get("longitude") if "longitude" in place else place.get("lon")
+    country = place.get("Country") or place.get("country")
 
     if not name or latitude is None or longitude is None or not country:
         return None
@@ -21,11 +21,17 @@ def parse_place(place):
     except (TypeError, ValueError):
         return None
 
+    normalized_name = str(name).strip()
+    normalized_country = str(country).strip()
+
+    if not normalized_name or not normalized_country:
+        return None
+
     return {
-        "name": name,
+        "name": normalized_name,
         "latitude": latitude,
         "longitude": longitude,
-        "country": country,
+        "country": normalized_country,
     }
 
 @placesBlueprint.route("/places", methods=["POST"])
@@ -33,29 +39,37 @@ def create_places():
     """
     This function receives a list of places and stores new places in the database.
     """
-    places = request.get_json(silent=True)
+    payload = request.get_json(silent=True)
+    places = payload.get("places") if isinstance(payload, dict) else payload
 
     if not isinstance(places, list):
         return jsonify({"error": "A list of places is required."}), 400
 
     parsed_places = []
-    for place in places:
+    for index, place in enumerate(places):
         if not isinstance(place, dict):
-            return jsonify({"error": "Each place must be an object."}), 400
+            return jsonify({"error": f"Place at index {index} must be an object."}), 400
 
         parsed_place = parse_place(place)
         if parsed_place is None:
             return jsonify({
-                "error": "Each place must contain Name, latitude, longitude, and Country."
+                "error": (
+                    f"Place at index {index} must contain Name, latitude, "
+                    "longitude, and Country."
+                )
             }), 400
 
         parsed_places.append(parsed_place)
 
-    conn = connect_to_database()
-    cursor = conn.cursor()
+    conn = None
+    cursor = None
     created_count = 0
+    saved_places = []
 
     try:
+        conn = connect_to_database()
+        cursor = conn.cursor()
+
         for place in parsed_places:
             cursor.execute(
                 """
@@ -74,13 +88,16 @@ def create_places():
                 ),
             )
 
-            if cursor.fetchone() is not None:
+            existing_place = cursor.fetchone()
+            if existing_place is not None:
+                saved_places.append({**place, "id": existing_place[0], "created": False})
                 continue
 
             cursor.execute(
                 """
                 INSERT INTO Place (PlaceName, latitude, longitude, country)
-                VALUES (%s, %s, %s, %s);
+                VALUES (%s, %s, %s, %s)
+                RETURNING PlaceID;
                 """,
                 (
                     place["name"],
@@ -89,6 +106,8 @@ def create_places():
                     place["country"],
                 ),
             )
+            place_id = cursor.fetchone()[0]
+            saved_places.append({**place, "id": place_id, "created": True})
             created_count += 1
 
         conn.commit()
@@ -96,7 +115,15 @@ def create_places():
             "message": "Places received successfully.",
             "received": len(parsed_places),
             "created": created_count,
+            "places": saved_places,
         }), 201
+    except Exception as error:
+        if conn is not None:
+            conn.rollback()
+        current_app.logger.exception("Unable to save places")
+        return jsonify({"error": "Unable to save places."}), 500
     finally:
-        cursor.close()
-        conn.close()
+        if cursor is not None:
+            cursor.close()
+        if conn is not None:
+            conn.close()
