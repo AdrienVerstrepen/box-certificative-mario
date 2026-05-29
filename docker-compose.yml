@@ -8,6 +8,7 @@ services:
             POSTGRES_PASSWORD: ${POSTGRES_USER_PASSWORD}
         volumes:
             - db_data:/var/lib/postgresql/data
+            - ./Database.sql:/docker-entrypoint-initdb.d/Database.sql:ro
         healthcheck:
             test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DATABASE}"]
             interval: 5s
@@ -23,9 +24,14 @@ services:
                 condition: service_healthy
         environment:
             DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_USER_PASSWORD}@db/${POSTGRES_DATABASE}
+            POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_USER_PASSWORD: ${POSTGRES_USER_PASSWORD}
             DB_USER: ${POSTGRES_USER}
             DB_PASSWORD: ${POSTGRES_USER_PASSWORD}
             DB_NAME: ${POSTGRES_DATABASE}
+            DB_HOST: db
+            DB_PORT: 5432
         ports:
             - "8000:8000"
 
