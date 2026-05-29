@@ -1,7 +1,9 @@
 from connexion import connect_to_database
 from flask import Blueprint, jsonify, request
 
-@api.route("/tour", methods=['GET'])
+tourBlueprint = Blueprint('tourBlueprint', __name__)
+
+@tourBlueprint.route("/tour", methods=['GET'])
 def get_tour(userID, tourName, visibility, tourDatas):
     """
     This function adds a tour to the database.
