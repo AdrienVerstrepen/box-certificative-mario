@@ -48,6 +48,15 @@ export const sendPlacesRequest = async (places) => {
         const response = await backendClientConf.post('/api/places', places)
         return response.data
     } catch (error) {
+
+    }
+}
+
+export const checkIfTourIsPublic = async (tourId) => {
+    try {
+        const response = await backendClientConf.get(`/api/tour/${tourId}`)
+        return response.data
+    } catch (error) {
         console.warn(error)
         if (error.response) {
             console.error("The API encountered an error :", error)
@@ -56,5 +65,5 @@ export const sendPlacesRequest = async (places) => {
         } else {
             console.error("Uknown error :", error)
         }
-    }
+    }   
 }
