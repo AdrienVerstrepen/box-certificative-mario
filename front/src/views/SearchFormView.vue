@@ -1,4 +1,5 @@
 <script setup>
+import { sendPlacesRequest } from '@/api/backendApiRequests';
 import { getSearchResult } from '@/api/geocodingApiRequests';
 import LocationSearchBar from '@/components/LocationSearchBar.vue';
 import { ref } from 'vue';
@@ -18,19 +19,30 @@ const handleSearch = async (userInput) => {
 }
 
 const handleLocationSelect = (location) => {
-    locations.value.push(location)
+    console.log(location);
+    const name = location.name || location.display_name?.split(',')[0]?.trim() || ''
+    const country = location.address?.country || location.display_name?.split(',').pop()?.trim() || ''
+
+    const locationInfos = {
+        Name: name,
+        latitude: location.lat,
+        longitude: location.lon,
+        Country: country,
+    }
+    console.log(locationInfos)
+
+    locations.value.push(locationInfos)
     searchResults.value = []
 }
 
 const send = () => {
-    console.log("Sending locations to back-end:", locations.value)
-    // Send locations.value to back-end
+    console.log(locations.value)
+    sendPlacesRequest(locations.value)
 }
 
 </script>
 
 <template>
-
     <LocationSearchBar v-model="userSearch"></LocationSearchBar>
     <button @click="handleSearch(userSearch.value)">SEARCH!</button>
 
@@ -44,7 +56,7 @@ const send = () => {
     </div>
 
     <div v-for="(location,index) in locations" :key="index">
-        <span>{{ location.display_name }} </span> <button @click="locations.splice(index, 1)"> Remove</button>
+        <span>{{ location.Name }}, {{ location.Country }} </span> <button @click="locations.splice(index, 1)"> Remove</button>
     </div>
     
     <br />
