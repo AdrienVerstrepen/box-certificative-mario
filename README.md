@@ -59,3 +59,7 @@ cd back && python app.py
     1) Go to the "front" directory 
     2) Install the dependencies using ``npm i``
     3) Start the dev server using ``npm run dev``
+
+## Testing
+
+You will find a document explaing our test protocol in ``documentation/Test protocol.docx``
