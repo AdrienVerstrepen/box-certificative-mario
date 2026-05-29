@@ -1,10 +1,21 @@
 from connexion import connect_to_database
 from flask import Blueprint, current_app, jsonify, request
 
+from algorithm.main_finding_best_path import main
+
 placesBlueprint = Blueprint('placesBlueprint', __name__)
 
-def save_places(places):
-    pass
+def optimizeTravel(places):
+    """
+    Run the path-finding algorithm on the persisted places.
+    """
+    try:
+        optimized_tour = main(places)
+        current_app.logger.info("Optimized tour generated for %s place(s).", len(places))
+        return optimized_tour
+    except Exception:
+        current_app.logger.exception("Unable to optimize travel")
+        return None
 
 def parse_place(place):
     """
@@ -122,6 +133,21 @@ def create_places():
             created_count += 1
 
         conn.commit()
+
+        saved_places_for_algorithm = [
+            {
+                "id": place["id"],
+                "name": place["name"],
+                "country": place["country"],
+                "lat": place["latitude"],
+                "lon": place["longitude"],
+            }
+            for place in saved_places
+        ]
+
+        # Places have been saved to DB, now compute the optimized itinerary.
+        print(optimizeTravel(saved_places_for_algorithm))
+
         return jsonify({
             "message": "Places received successfully.",
             "received": len(parsed_places),
