@@ -5,16 +5,12 @@ from routes.user import userBlueprint
 
 app = flask.Flask(__name__)
 
-app.register_blueprint(userBlueprint)
+app.register_blueprint(userBlueprint, url_prefix="/api")
 
 db_name = os.getenv('POSTGRES_DB')
 db_user = os.getenv('POSTGRES_USER')
 db_password = os.getenv('DB_PASSWORD')
 db_host = os.getenv('DB_HOST', 'localhost')
-
-@app.route("/")
-def index():
-    return "Homepage of GeeksForGeeks"
 
 import routes.user
 

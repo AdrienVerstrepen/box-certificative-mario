@@ -2,7 +2,11 @@ import backendClientConf from '@/api/backendClientConf'
 
 export const sendRegistrationRequest = async (username, mail, password) => {
     try {
-        const response = await backendClientConf.get(`/register?username=${username}&mail=${mail}&password=${password}`)
+        const response = await backendClientConf.post('/api/register', {
+            name: username,
+            email: mail,
+            password,
+        })
         return response.data
     } catch (error) {
         console.warn(error)
@@ -18,7 +22,10 @@ export const sendRegistrationRequest = async (username, mail, password) => {
 
 export const sendLoginRequest = async (mail, password) => {
     try {
-        const response = await backendClientConf.get(`/login?mail=${mail}&password=${password}`)
+        const response = await backendClientConf.post('/api/login', {
+            email: mail,
+            password,
+        })
         return response.data
     } catch (error) {
         console.warn(error)

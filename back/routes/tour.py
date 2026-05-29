@@ -1,4 +1,5 @@
-from config import api, Connection
+from connexion import connect_to_database
+from flask import Blueprint, jsonify, request
 
 @api.route("/tour", methods=['GET'])
 def get_tour(userID, tourName, visibility, tourDatas):

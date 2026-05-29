@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 userBlueprint = Blueprint('userBlueprint', __name__)
 
-@userBlueprint.route("/api/login", methods=['POST'])
+@userBlueprint.route("/login", methods=['POST'])
 def login():
     """
     This function returns the information of a user if the provided credentials are correct.
@@ -58,7 +58,7 @@ def login():
         conn.close()
 
 
-@userBlueprint.route("/api/register", methods=['POST'])
+@userBlueprint.route("/register", methods=['POST'])
 def register():
     """
     This function registers a new user in the database.
