@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { sanitizeEmail } from '@/utils/sanitization'
+import { sendLoginRequest } from '@/api/backendApiRequests'
 
 const userEmail = ref('')
 const userPassword = ref('')
@@ -13,12 +14,8 @@ const handleLogin = () => {
         errorMessage.value = error.message
     }
 
-    const user = {
-        mail: userEmail,
-        clearPassword: userPassword
-    }
     console.log('Logging in with email:', email, 'and password:', password)
-    // Send request to back-end
+    sendLoginRequest(userEmail.value, userPassword.value)
 };
 
 </script>
