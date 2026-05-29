@@ -10,6 +10,7 @@ const userSearch = ref('')
 const searchResults = ref([])
 const locations = ref([])
 
+// find all cities from a search
 const handleSearch = async () => {
     try {
         const results = await getSearchResult(userSearch.value)
@@ -20,6 +21,7 @@ const handleSearch = async () => {
     }
 }
 
+// get the informations of a city
 const handleLocationSelect = (location) => {
     console.log(location)
     const name = location.name || location.display_name?.split(',')[0]?.trim() || ''
@@ -37,6 +39,7 @@ const handleLocationSelect = (location) => {
     searchResults.value = []
 }
 
+// function to send the data in the backend
 const send = () => {
     console.log(locations.value)
     console.log(tourName.value, visibility.value)
