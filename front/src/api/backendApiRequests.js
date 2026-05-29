@@ -45,7 +45,7 @@ export const sendLoginRequest = async (mail, password) => {
 
 export const sendPlacesRequest = async (tourName, places) => {
     try {
-        const response = await backendClientConf.post('/api/places', tourName, places)
+        const response = await backendClientConf.post('/api/places', {tourName, places})
         return response.data
     } catch (error) {
 
