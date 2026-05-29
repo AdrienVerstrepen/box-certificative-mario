@@ -68,5 +68,3 @@ VALUES
 
 (3, 3, 1),
 (5, 3, 2);
-
-select * from Appuser
