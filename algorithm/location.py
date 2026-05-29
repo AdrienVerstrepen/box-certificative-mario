@@ -3,7 +3,7 @@ import haversine as hs
 from haversine import Unit
 
 class Location:
-    def __init__(self, city_id, name, latitude, longitude):
+    def __init__(self, city_id, country, name, latitude, longitude):
         """
         The location is represented by a city id, a name and coordinates, that can be accessed directly or the two of them together.
         """
@@ -11,7 +11,7 @@ class Location:
         self.name = name
         self.latitude = latitude
         self.longitude = longitude
-        # self.country = country
+        self.country = country
         self.coordonates = (latitude, longitude)
         self.position = -1
         self.cluster_number = -1
@@ -27,4 +27,4 @@ class Location:
         """
         This method shows the information of the location.
         """
-        return f"{self.name} (ID : {self.id})"
+        return f"{self.name}, {self.country} (ID : {self.id})"

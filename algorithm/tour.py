@@ -67,19 +67,26 @@ class Tour:
     def export_itinerary(self):
         """
         This method exports the tour as a list of dictionaries ordered by their visit position.
-        Each location contains its id, name, coordinates, and its final position index.
+        Each location contains its id, name, country, coordinates, the cluster number, the informations of and its final position index.
         """
+        locations_by_id = {loc.id: loc for loc in self.locations}
         ordered_locations = sorted(self.locations, key=lambda location: location.position)
         exported_list = []
         for location in ordered_locations:
+            hotel_object = locations_by_id.get(location.cluster_hotel_id)
+            if hotel_object:
+                clust_hotel_info = (hotel_object.name, hotel_object.country)
+            else:
+                clust_hotel_info = (location.name, location.country)
             exported_list.append({
                 "id": location.id,
                 "name": location.name,
+                "country": location.country,
                 "lat": location.latitude,
                 "lon": location.longitude,
                 "pos": location.position,
-                "cn" : location.cluster_number,
-                "chi" : location.cluster_hotel_id
+                "clustnumber" : location.cluster_number,
+                "clusthotel" : clust_hotel_info
             })
         return exported_list
 

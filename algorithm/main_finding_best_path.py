@@ -4,15 +4,11 @@ from path_finding_algorithms.dynamic_held_karp import DynamicHeldKarpTSP
 from path_finding_algorithms.nearest_neighbours import NearestNeighboursTSP
 from cluster_manager import ClusterManager
 
-def main():
-    picked_locations = [
-        {"id": 0, "name": "Paris", "lat": 48.8566, "lon": 2.3522},
-        {"id": 1, "name": "Lille", "lat": 50.6292, "lon": 3.0573},
-        {"id": 2, "name": "Amiens", "lat": 49.8940, "lon": 2.2957},
-        {"id": 3, "name": "Arras", "lat": 50.2920, "lon": 2.7800},
-        {"id": 4, "name": "Lyon", "lat": 45.7640, "lon": 4.8357}
-    ]
-
+def main(picked_locations):
+    """
+    This is the pipeline to get the the optimized tour for a user with the locations they picked.
+    It returns a list with the dictionary for each location and the total distance.
+    """
     list_location = []
     for location in picked_locations:
         list_location.append(Location(location["id"], location["name"], location["lat"], location["lon"]))
@@ -56,9 +52,8 @@ def main():
         location = step["location_object"]
 
     json_export = tour.export_itinerary()
-    print(json_export)
-
-    print(f"\nDistance totale estimée du trajet : {round(total_distance, 2)} km")
+    json_export.append(total_distance)
+    return json_export
 
 if __name__ == "__main__":
     main()
