@@ -14,6 +14,8 @@ class Location:
         # self.country = country
         self.coordonates = (latitude, longitude)
         self.position = -1
+        self.cluster_number = -1
+        self.cluster_hotel_id = -1
 
     def distance_locations(self, location_2):
         """

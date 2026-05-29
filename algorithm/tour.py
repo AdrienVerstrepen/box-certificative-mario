@@ -64,6 +64,23 @@ class Tour:
             })
         return tour_itinerary
 
+    def export_itinerary(self):
+        """
+        This method exports the tour as a list of dictionaries ordered by their visit position.
+        Each location contains its id, name, coordinates, and its final position index.
+        """
+        ordered_locations = sorted(self.locations, key=lambda loc: loc.position)
+        exported_list = []
+        for loc in ordered_locations:
+            exported_list.append({
+                "id": loc.id,
+                "name": loc.name,
+                "lat": loc.latitude,
+                "lon": loc.longitude,
+                "pos": loc.position
+            })
+        return exported_list
+
     def __repr__(self):
         """
         This method shows the information of the tour.
