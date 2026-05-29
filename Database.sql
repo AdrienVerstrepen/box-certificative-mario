@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS Tour
     TourName VARCHAR(100),
     Visibility bool,
 	UserID int, 
+	TourLenght float,
 	FOREIGN KEY (UserID) REFERENCES AppUser(UserID)
 );
 
