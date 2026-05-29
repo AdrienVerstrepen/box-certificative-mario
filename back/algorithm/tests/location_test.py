@@ -1,13 +1,13 @@
 import unittest
-from algorithm.location import Location
+from back.algorithm.location import Location
 
 class TestLocation(unittest.TestCase):
     def setUp(self):
         """"
         This method initializes two locations that will be used to test the rest.
         """
-        self.paris = Location(0, "Paris", 48.8566, 2.3522)
-        self.lyon = Location(1, "Lyon", 45.7640, 4.8357)
+        self.paris = Location(0, "France", "Paris", 48.8566, 2.3522)
+        self.lyon = Location(1, "France", "Lyon", 45.7640, 4.8357)
 
     def test_initialization(self):
         """
@@ -38,7 +38,7 @@ class TestLocation(unittest.TestCase):
         """
         This method verifies the information of a location are correctly showed.
         """
-        self.assertEqual(repr(self.paris), "Paris (ID : 0)")
+        self.assertEqual(repr(self.paris), "Paris, France (ID : 0)")
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,15 +1,15 @@
 import unittest
-from algorithm.location import Location
-from algorithm.tour import Tour
+from back.algorithm.location import Location
+from back.algorithm.tour import Tour
 
 class TestTour(unittest.TestCase):
     def setUp(self):
         """"
         This method initializes three locations that will be used to test the rest.
         """
-        self.paris = Location(0, "Paris", 48.8566, 2.3522)
-        self.lyon = Location(1, "Lyon", 45.7640, 4.8357)
-        self.marseille = Location(2, "Marseille", 43.2965, 5.3698)
+        self.paris = Location(0, "France", "Paris", 48.8566, 2.3522)
+        self.lyon = Location(1, "France", "Lyon", 45.7640, 4.8357)
+        self.marseille = Location(2, "France", "Marseille", 43.2965, 5.3698)
 
     def test_initialization_empty(self):
         """
@@ -84,7 +84,7 @@ class TestTour(unittest.TestCase):
         This method verifies the information of a location are correctly showed.
         """
         tour = Tour([self.paris, self.lyon])
-        self.assertEqual(repr(tour), "Tour with 2 locations.")
+        self.assertEqual(repr(tour), "Tour with 2 locations")
 
 if __name__ == "__main__":
     unittest.main()

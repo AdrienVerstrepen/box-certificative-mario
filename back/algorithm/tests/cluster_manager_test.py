@@ -1,5 +1,5 @@
 import unittest
-from algorithm.cluster_manager import ClusterManager
+from back.algorithm.cluster_manager import ClusterManager
 
 class MockLocation:
     """

@@ -30,3 +30,14 @@ Once done, please start the app using :
 ```
 python app.py
 ```
+
+## Tests launch
+The tests for the algorithm side can be launched with the following commands :
+
+```
+python -m unittest back.algorithm.tests.cluster_manager_test
+python -m unittest back.algorithm.tests.dynamic_held_karp_test
+python -m unittest back.algorithm.tests.location_test
+python -m unittest back.algorithm.tests.nearest_neighbours_test
+python -m unittest back.algorithm.tests.tour_test
+```
