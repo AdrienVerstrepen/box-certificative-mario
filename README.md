@@ -18,3 +18,20 @@ Then change the values corresponding to the one you will be using.
 ```
 docker-compose up -d --build
 ```
+
+## Developper
+
+1. Start the database
+```
+docker compose up -d db
+```
+
+2. Start the backend
+```
+cd back && python app.py
+```
+
+3. Start the frontend
+```
+cd ../front && npm run dev
+```
