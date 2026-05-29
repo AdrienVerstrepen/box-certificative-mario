@@ -3,13 +3,24 @@ from flask import Blueprint, current_app, jsonify, request
 
 placesBlueprint = Blueprint('placesBlueprint', __name__)
 
+def save_places(places):
+    pass
+
 def parse_place(place):
     """
     This function validates and normalizes a place payload.
     """
-    name = place.get("Name") or place.get("name")
-    latitude = place.get("latitude") if "latitude" in place else place.get("lat")
-    longitude = place.get("longitude") if "longitude" in place else place.get("lon")
+    name = place.get("PlaceName") or place.get("Name") or place.get("name")
+    latitude = (
+        place.get("Latitude")
+        if "Latitude" in place
+        else place.get("latitude", place.get("lat"))
+    )
+    longitude = (
+        place.get("Longitude")
+        if "Longitude" in place
+        else place.get("longitude", place.get("lon"))
+    )
     country = place.get("Country") or place.get("country")
 
     if not name or latitude is None or longitude is None or not country:
@@ -54,8 +65,8 @@ def create_places():
         if parsed_place is None:
             return jsonify({
                 "error": (
-                    f"Place at index {index} must contain Name, latitude, "
-                    "longitude, and Country."
+                    f"Place at index {index} must contain PlaceName, Latitude, "
+                    "Longitude, and Country."
                 )
             }), 400
 
@@ -76,9 +87,9 @@ def create_places():
                 SELECT PlaceID
                 FROM Place
                 WHERE PlaceName = %s
-                    AND latitude = %s
-                    AND longitude = %s
-                    AND country = %s;
+                    AND Latitude = %s
+                    AND Longitude = %s
+                    AND Country = %s;
                 """,
                 (
                     place["name"],
@@ -95,7 +106,7 @@ def create_places():
 
             cursor.execute(
                 """
-                INSERT INTO Place (PlaceName, latitude, longitude, country)
+                INSERT INTO Place (PlaceName, Latitude, Longitude, Country)
                 VALUES (%s, %s, %s, %s)
                 RETURNING PlaceID;
                 """,

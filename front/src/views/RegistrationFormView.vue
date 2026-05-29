@@ -1,78 +1,93 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import AuthForm from '@/components/AuthForm.vue'
+import FormField from '@/components/FormField.vue'
+import { useAuthStore } from '@/stores/auth'
 import { sanitizeEmail, sanitizeUsername } from '@/utils/sanitization'
-import { sendRegistrationRequest } from '@/api/backendApiRequests'
 
-const email = ref("")
-const username = ref("")
-const userPassword = ref("")
-const errorMessage = ref("")
+const router = useRouter()
+const auth = useAuthStore()
+const email = ref('')
+const username = ref('')
+const userPassword = ref('')
+const errorMessage = ref('')
 
 const checkPasswordStrength = (password) => {
-    if (password.length < 8) {
-        throw new Error("Password too short")
-    }
-    const passwordRegex = /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$/
-    if (!/(.*[A-Z]){2,}/.test(password)) {
-        throw new Error("Password must have at least 2 uppercase letters (A-Z)");
-    }
-    
-    if (!/(.*[!@#$&*])/.test(password)) {
-        throw new Error("Password must contain at least one special character (e.g. !@#$&*)");
-    }
-    
-    if (!/(.*[0-9]){2,}/.test(password)) {
-        throw new Error("Password must have at least 2 numbers in it");
-    }
-    
-    if (!/(.*[a-z]){3,}/.test(password)) {
-        throw new Error("Password must contain 3 lowercase letters (a-z)");
-    }
+  if (password.length < 8) {
+    throw new Error('Password too short')
+  }
+  if (!/(.*[A-Z]){2,}/.test(password)) {
+    throw new Error('Password must have at least 2 uppercase letters')
+  }
+  if (!/(.*[!@#$&*])/.test(password)) {
+    throw new Error('Password must contain one special character')
+  }
+  if (!/(.*[0-9]){2,}/.test(password)) {
+    throw new Error('Password must have at least 2 numbers')
+  }
+  if (!/(.*[a-z]){3,}/.test(password)) {
+    throw new Error('Password must contain 3 lowercase letters')
+  }
 }
 
 const registerUser = async () => {
-    try {
-        checkPasswordStrength(userPassword.value)
-        email.value = sanitizeEmail(email.value)
-        username.value = sanitizeUsername(username.value)
-    } catch (error) {
-        errorMessage.value = error.message
-        return
-    }
+  try {
+    checkPasswordStrength(userPassword.value)
+    email.value = sanitizeEmail(email.value)
+    username.value = sanitizeUsername(username.value)
+  } catch (error) {
+    errorMessage.value = error.message
+    return
+  }
 
-    errorMessage.value = ""
-    console.log("user tried to register")
-    const data = await sendRegistrationRequest(username.value, email.value, userPassword.value)
-    console.log(data)
-    // SEND DATA TO BACKEND !!
+  const result = await auth.register(username.value, email.value, userPassword.value)
+  if (!result.success) {
+    errorMessage.value = result.error
+    return
+  }
+
+  errorMessage.value = ''
+  router.push({ name: 'Home' })
 }
-
 </script>
 
 <template>
-    <h1>Registration Form</h1>
+  <AuthForm
+    title="Create account"
+    description="Save your itineraries and retrieve them from any session."
+    submit-label="Create account"
+    :loading="auth.loading"
+    :error-message="errorMessage || auth.errorMsg"
+    @submit="registerUser"
+  >
+    <FormField
+      id="register-email"
+      v-model="email"
+      label="Email"
+      type="email"
+      placeholder="you@example.com"
+      required
+    />
+    <FormField
+      id="register-username"
+      v-model="username"
+      label="Username"
+      placeholder="Your name"
+      required
+    />
+    <FormField
+      id="register-password"
+      v-model="userPassword"
+      label="Password"
+      type="password"
+      placeholder="8 characters minimum"
+      required
+    />
 
-    <div v-if="errorMessage">
-        {{ errorMessage }}
-    </div>
-    <form @submit.prevent="registerUser">
-        <div>
-            <label>Email</label>
-            <input type="text" placeholder="email" v-model="email">
-        </div>
-        <div>
-            <label>Username</label>
-            <input type="text" placeholder="username" v-model="username">
-        </div>
-        <div>
-            <label>Password</label>
-            <input type="password" placeholder="password" v-model="userPassword">
-        </div>
-        <button type="submit">btn</button>
-    </form>
-
+    <template #footer>
+      Already registered?
+      <router-link to="/login">Log in</router-link>
+    </template>
+  </AuthForm>
 </template>
-
-<style scoped>
-
-</style>

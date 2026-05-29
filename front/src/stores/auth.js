@@ -16,7 +16,7 @@ export const useAuthStore = defineStore('auth', () => {
     errorMsg.value = null
     try {
       const data = await sendLoginRequest(email, password)
-      if (data && data.success) {
+      if (data?.success || data?.user) {
         user.value = data.user
         localStorage.setItem('user', JSON.stringify(data.user))
         return { success: true }
@@ -36,7 +36,7 @@ export const useAuthStore = defineStore('auth', () => {
     errorMsg.value = null
     try {
       const data = await sendRegistrationRequest(username, email, password)
-      if (data && data.success) {
+      if (data?.success || data?.user) {
         user.value = data.user
         localStorage.setItem('user', JSON.stringify(data.user))
         return { success: true }

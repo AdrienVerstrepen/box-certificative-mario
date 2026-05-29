@@ -9,13 +9,15 @@ export const sendRegistrationRequest = async (username, mail, password) => {
         })
         return response.data
     } catch (error) {
-        console.warn(error)
         if (error.response) {
             console.error("The API encountered an error :", error)
+            throw new Error(error.response.data?.error || "Registration failed")
         } else if (error.request) {
             console.error("No response from the API :", error)
+            throw new Error("No response from the API")
         } else { 
             console.error("Uknown error :", error)
+            throw new Error("Unknown registration error")
         }
     }
 }
@@ -28,13 +30,15 @@ export const sendLoginRequest = async (mail, password) => {
         })
         return response.data
     } catch (error) {
-        console.warn(error)
         if (error.response) {
             console.error("The API encountered an error :", error)
+            throw new Error(error.response.data?.error || "Login failed")
         } else if (error.request) {
             console.error("No response from the API :", error)
+            throw new Error("No response from the API")
         } else { 
             console.error("Uknown error :", error)
+            throw new Error("Unknown login error")
         }
     }
 }
