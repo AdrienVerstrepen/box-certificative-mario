@@ -3,6 +3,8 @@ import { getSearchResult } from '@/api/geocodingApiRequests';
 import LocationSearchBar from '@/components/LocationSearchBar.vue';
 import { ref, computed } from 'vue';
 
+
+
 const results = ref([
     {
         id: 1,
@@ -131,23 +133,43 @@ const send = () => {
         </div>
     </div>
 
-    <button @click="updateDistance()">updateDistance</button>
+    <button @click="updateDistance()" class="update-button">Update distance</button>
 </template>
 
 <style>
+:root {
+    --bg: #f4f5f7;
+    --panel: #ffffff;
+    --border: #d6d6d8;
+    --text: #2f3d4c;
+    --accent: #2563eb;
+    --accent-dark: #1e40af;
+}
+
 .clusters {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    padding: 1.5rem;
+    max-width: 1140px;
+    margin: 0 auto;
+    background: var(--bg);
 }
 
 .cluster-box {
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem;
     width: 100%;
-    max-width: 520px;
-    background: #f9f9f9;
+    max-width: 540px;
+    background: var(--panel);
+    box-shadow: 0 8px 24px rgba(31, 41, 55, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cluster-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(31, 41, 55, 0.12);
 }
 
 .cluster-header {
@@ -155,17 +177,60 @@ const send = () => {
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.cluster-header h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 1.1rem;
+}
+
+.cluster-header p {
+    margin: 0.35rem 0 0;
+    color: #64748b;
+    font-size: 0.95rem;
 }
 
 .cluster-actions button,
+.item-actions button,
+.update-button {
+    border: none;
+    border-radius: 999px;
+    padding: 0.55rem 0.85rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.cluster-actions button,
+.update-button {
+    background: var(--accent);
+    color: #fff;
+}
+
 .item-actions button {
-    margin-left: 0.25rem;
+    background: #eef2ff;
+    color: var(--accent-dark);
+}
+
+.cluster-actions button:disabled,
+.item-actions button:disabled,
+.update-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cluster-actions button:not(:disabled):hover,
+.update-button:not(:disabled):hover {
+    background: var(--accent-dark);
 }
 
 .cluster-items {
     display: grid;
-    gap: 0.75rem;
+    gap: 0.85rem;
 }
 
 .cluster-item {
@@ -173,14 +238,24 @@ const send = () => {
     justify-content: space-between;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.75rem;
-    border-radius: 8px;
-    background: #fff;
-    border: 1px solid #ddd;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.cluster-item span {
+    color: var(--text);
+    font-weight: 500;
 }
 
 .item-actions {
     display: flex;
-    gap: 0.25rem;
+    gap: 0.5rem;
+}
+
+.update-button {
+    display: inline-flex;
+    margin: 1rem 1.5rem;
 }
 </style>

@@ -54,7 +54,16 @@ const clusters = computed(() => {
 
 <template>
     <div class="tour-list">
-        <h1>All tours</h1>
+        <router-link :to="{ name: 'Home' }" class="create-tour-button">
+                Create new tour
+        </router-link>
+
+        <div class="tour-list-header">
+            <div>
+                <h1>All tours</h1>
+            </div>
+                    </div>
+
         <div class="tour-grid">
             <div v-for="cluster in clusters" :key="cluster.id" class="tour-card">
                 <div class="tour-card-header">
@@ -66,12 +75,6 @@ const clusters = computed(() => {
                         Open tour
                     </router-link>
                 </div>
-
-                <ul class="tour-stops">
-                    <li v-for="item in cluster.items" :key="item.id">
-                        Step {{ item.step }}: {{ item.name }}
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
@@ -102,12 +105,19 @@ const clusters = computed(() => {
     margin-bottom: 0.75rem;
 }
 
+.create-tour-button,
 .tour-link {
-    padding: 0.5rem 0.75rem;
-    background: #3b82f6;
+    padding: 0.65rem 0.9rem;
+    background: #2563eb;
     color: #fff;
-    border-radius: 8px;
+    border-radius: 999px;
     text-decoration: none;
+    font-weight: 600;
+}
+
+.create-tour-button:hover,
+.tour-link:hover {
+    background: #1d4ed8;
 }
 
 .tour-stops {
