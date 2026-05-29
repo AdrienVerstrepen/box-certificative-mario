@@ -62,12 +62,12 @@ VALUES
 ('Kyoto', 35.0116, 135.7681, 'Japan');
 
 -- STAGES
-INSERT INTO Stage (PlaceID, TourID, StepNumber)
+INSERT INTO Stage (PlaceID, TourID, StepNumber, ClusterNumber, HotelNumber)
 VALUES
-(1, 1, 1),
-(2, 1, 2),
+(1, 1, 1, 1, 1),
+(2, 1, 2, 2, 2),
 
-(4, 2, 1),
+(4, 2, 1, 1, 1),
 
-(3, 3, 1),
-(5, 3, 2);
+(3, 3, 1, 1, 1),
+(5, 3, 2, 1, 1);
