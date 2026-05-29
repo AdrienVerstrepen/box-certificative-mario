@@ -146,7 +146,7 @@ def create_places():
         ]
 
         # Places have been saved to DB, now compute the optimized itinerary.
-        print(optimizeTravel(saved_places_for_algorithm))
+        optimizeTravel(saved_places_for_algorithm)
 
         return jsonify({
             "message": "Places received successfully.",
