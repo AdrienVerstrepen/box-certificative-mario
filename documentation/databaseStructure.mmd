@@ -1,0 +1,35 @@
+classDiagram
+    class AppUser {
+        +string Username
+        +string UserPassword
+        +string UserRole
+        +string Email
+        +int UserID
+    }
+
+    class Tour {
+        +string TourName
+        +bool Visibility
+        +AppUser UserID
+        +int TourID
+    }
+
+    class Place {
+        +string PlaceName
+        +float Latitude
+        +float Longitude
+        +string Country
+        +int LocationID
+        +int clusterNumber
+        +int clusterHotelID
+    }
+
+    class Stage {
+        +int TourID
+        +int PlaceID
+        +int StepNumber
+    }
+
+    AppUser -- Tour
+    Tour -- Stage
+    Place -- Stage
