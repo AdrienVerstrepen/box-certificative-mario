@@ -32,13 +32,11 @@ def main():
 
     best_hotel_indices = chosen_path_algorithm.find_shortest_itinerary(macro_tour.distance_matrix)
     global_indices = []
-    
     for hotel_index_in_macro in best_hotel_indices[:-1]:
         current_hotel = macro_tour.locations[hotel_index_in_macro]
-        
         global_hotel_index = tour.locations.index(current_hotel)
         global_indices.append(global_hotel_index)
-        
+
         current_cluster = None
         for cluster in clusters:
             if cluster["hotel"].id == current_hotel.id:
@@ -51,23 +49,16 @@ def main():
                 global_indices.append(global_villes_index)
 
     global_indices.append(global_indices[0])
-    itinerary = macro_tour.format_itinerary(best_hotel_indices)
+    itinerary = tour.format_itinerary(global_indices)
     total_distance = tour.tour_score(global_indices)
 
-    print(f"Nombre de clusters créés : {len(clusters)}")
-    print("\nOrdre optimal des étapes du tour global :")
     for step in itinerary:
-        order = step["visit_order"]
         location = step["location_object"]
-        if location.id == location.cluster_hotel_id:
-            print(f"Étape {order} : [HÔTEL] {location.name} (Position unique : {location.position})")
-        else:
-            print(f"Étape {order} :       └─ Visite : {location.name} (Position unique : {location.position})")
 
     json_export = tour.export_itinerary()
-    print("\nFormat exporté (ordonné sans doublon de fin) :")
     print(json_export)
 
     print(f"\nDistance totale estimée du trajet : {round(total_distance, 2)} km")
+
 if __name__ == "__main__":
     main()
