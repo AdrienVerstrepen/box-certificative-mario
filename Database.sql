@@ -30,9 +30,12 @@ create TABLE IF NOT EXISTS Stage
     PlaceID INT,
     TourID Int,
     StepNumber Int,
+	ClusterNumber Int,
+	HotelNumber Int,
 	primary key (PlaceID, TourID),
 	foreign key (PlaceID) references Place(PlaceId),
-	foreign key (TourID) references Tour(TourId)
+	foreign key (TourID) references Tour(TourId),
+	foreign key (HotelNumber) references Place(PlaceId)
 );
 
 -- USERS
