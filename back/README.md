@@ -13,12 +13,16 @@ Once you have set up the correct variables in the .env file, please enter the fo
 set POSTGRES_USER_PASSWORD=password2
 set POSTGRES_DATABASE=database_name
 set POSTGRES_USER=database_user_name
+set DB_HOST=localhost
+set DB_PORT=5432
 ```
 - On Linux :
 ```
 export POSTGRES_USER_PASSWORD=password2
 export POSTGRES_DATABASE=database_name
 export POSTGRES_USER=database_user_name
+export DB_HOST=localhost
+export DB_PORT=5432
 ```
 
 Once done, please start the app using : 

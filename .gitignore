@@ -45,7 +45,8 @@ doc.yaml
 refacto/*
 old/*
 venv/*
-__pycache__
+__pycache__/
+__pycache__/*
 
 # Secrets
 .env
