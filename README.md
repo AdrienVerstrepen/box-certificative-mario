@@ -19,7 +19,7 @@ Then change the values corresponding to the one you will be using.
 docker-compose up -d --build
 ```
 
-## Developper
+### Locally
 
 1. Start the database
 ```
