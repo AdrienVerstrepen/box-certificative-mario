@@ -3,6 +3,7 @@ import geocodingApiClient from "./geocodingClientConf"
 export const getSearchResult = async (query) => {
     try {
         const response = await geocodingApiClient.get(`/search?q=${query}&format=jsonv2`)
+        console.log("API response :", response.data)
         return response.data
     } catch (error) {
         console.warn(error)
