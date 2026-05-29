@@ -4,8 +4,11 @@
 
 This app is dedicated to the optimisation of traveling plans. 
 
-## Features
+## Requirements
 
+- Python3+
+- Node 22+
+- PostgresSQL Server (if not using docker)
 
 ## Quickstart
 
@@ -23,18 +26,36 @@ docker-compose up -d --build
 
 1. Start the database
     1) Set up your .env file, copy .env.example in .env and change the value corresponding to your environnement.
-    2) Then execute the following :
-```
-docker compose up -d db
-```
+    2) Then load the demo-db.sql into your PostgreSQL server database.
 
 2. Start the backend
-    1) Head to ()[back/README.md]
+    1) Set up your environnements variables
+- On Windows cmd : 
+```
+set POSTGRES_USER_PASSWORD=SAME_AS_IN_.ENV
+set POSTGRES_DATABASE=SAME_AS_IN_.ENV
+set POSTGRES_USER=SAME_AS_IN_.ENV
+set DB_HOST=SAME_AS_IN_.ENV
+set DB_PORT=SAME_AS_IN_.ENV
+```
+- On Linux :
+```
+export POSTGRES_USER_PASSWORD=SAME_AS_IN_.ENV
+export POSTGRES_DATABASE=SAME_AS_IN_.ENV
+export POSTGRES_USER=SAME_AS_IN_.ENV
+export DB_HOST=SAME_AS_IN_.ENV
+export DB_PORT=SAME_AS_IN_.ENV
+```
+    2) Install the requirements in the "back" directory : 
+```
+pip install -r requirements
+```
+    3) Start the back-end : 
 ```
 cd back && python app.py
 ```
 
 3. Start the frontend
-```
-cd ../front && npm run dev
-```
+    1) Go to the "front" directory 
+    2) Install the dependencies using ``npm i``
+    3) Start the dev server using ``npm run dev``
