@@ -22,11 +22,14 @@ docker-compose up -d --build
 ### Locally
 
 1. Start the database
+    1) Set up your .env file, copy .env.example in .env and change the value corresponding to your environnement.
+    2) Then execute the following :
 ```
 docker compose up -d db
 ```
 
 2. Start the backend
+    1) Head to ()[back/README.md]
 ```
 cd back && python app.py
 ```
