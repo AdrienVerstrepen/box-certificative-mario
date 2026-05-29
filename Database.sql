@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS AppUser
     UserID SERIAL  PRIMARY KEY NOT NULL,
     Username VARCHAR(100) unique,
     Email VARCHAR(255) unique,
-	UserPassword VARCHAR(100),
+	UserPassword VARCHAR(255),
 	UserRoles VARCHAR(100)
 );
 
