@@ -42,7 +42,7 @@ create TABLE IF NOT EXISTS Stage
 -- USERS
 INSERT INTO AppUser (UserID, Username, Email, UserPassword, UserRoles)
 VALUES
-(1, 'adrien', 'adrien@mail.com', 'scrypt:32768:8:1$lEFfO0NfW3ZCJgtH$5f8d1e8b515935ef2f10cbf455446b9dbae775d1691f1fe337335370a6b409bacaeb9b97371a88e1248e5ebd6ac40f77ace42f2e699ec91ddcd1c20cf4827382', 'USER'),
+(1, 'admin', 'admin@mail.com', 'scrypt:32768:8:1$lEFfO0NfW3ZCJgtH$5f8d1e8b515935ef2f10cbf455446b9dbae775d1691f1fe337335370a6b409bacaeb9b97371a88e1248e5ebd6ac40f77ace42f2e699ec91ddcd1c20cf4827382', 'ADMIN'),
 (2, 'athene', 'athene@mail.com', 'scrypt:32768:8:1$iDeQyzerXMPBIwHC$35913694a1678bdeb03a3323b9a6e6ba2ad52f963362ebb257033b6b37247abc76e49e2dd7657ef96fb8a099ef2b1c228843200fedf9ba67f8a56459f312ef50', 'USER'),
 (3, 'mathys', 'mathys@mail.com', 'scrypt:32768:8:1$bV1JUHqL7ksVV4RT$d4659ffd26c50e4c64a0b221ced18360b57e0213c9c1cd23adfd1d3cd5a4b185a70acec1120e6b49d10bddb4ad69e73efc0b10061c48e199d7017553e1d9755e', 'ADMIN');
 

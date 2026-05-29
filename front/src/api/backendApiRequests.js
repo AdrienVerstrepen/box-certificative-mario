@@ -43,12 +43,21 @@ export const sendLoginRequest = async (mail, password) => {
     }
 }
 
-export const sendPlacesRequest = async (tourName, places) => {
+export const sendPlacesRequest = async (payload) => {
     try {
-        const response = await backendClientConf.post('/api/places', {tourName, places})
+        const response = await backendClientConf.post('/api/tours', payload)
         return response.data
     } catch (error) {
-
+        if (error.response) {
+            console.error("The API encountered an error :", error)
+            throw new Error(error.response.data?.error || "Tour save failed")
+        } else if (error.request) {
+            console.error("No response from the API :", error)
+            throw new Error("No response from the API")
+        } else {
+            console.error("Uknown error :", error)
+            throw new Error("Unknown tour save error")
+        }
     }
 }
 

@@ -62,6 +62,7 @@ def create_places():
     This function receives a list of places and stores new places in the database.
     """
     payload = request.get_json(silent=True)
+    
     places = payload.get("places") if isinstance(payload, dict) else payload
 
     if not isinstance(places, list):
