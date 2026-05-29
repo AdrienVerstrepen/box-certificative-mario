@@ -35,8 +35,9 @@ const handleLocationSelect = (location) => {
   searchResults.value = []
 }
 
-const send = () => {
-  sendPlacesRequest(locations.value)
+const send = async () => {
+  const res = await sendPlacesRequest(tourName.value, locations.value)
+  console.log(res)
 }
 </script>
 
