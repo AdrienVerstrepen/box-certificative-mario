@@ -8,18 +8,18 @@ const userSearch = ref('')
 const searchResults = ref([])
 const locations = ref([])
 
-const handleSearch = async (userInput) => {
+const handleSearch = async () => {
     try {
         const results = await getSearchResult(userSearch.value)
         searchResults.value = results
-        userSearch.value = ''        
+        userSearch.value = ''
     } catch (error) {
         console.warn(error)
     }
 }
 
 const handleLocationSelect = (location) => {
-    console.log(location);
+    console.log(location)
     const name = location.name || location.display_name?.split(',')[0]?.trim() || ''
     const country = location.address?.country || location.display_name?.split(',').pop()?.trim() || ''
 
@@ -43,8 +43,10 @@ const send = () => {
 </script>
 
 <template>
-    <LocationSearchBar v-model="userSearch"></LocationSearchBar>
-    <button @click="handleSearch(userSearch.value)">SEARCH!</button>
+    <form @submit.prevent="handleSearch" class="search-form">
+        <LocationSearchBar v-model="userSearch" />
+        <button type="submit">SEARCH!</button>
+    </form>
 
     <div v-if="searchResults.length > 0">
         <h2>Search Results:</h2>
